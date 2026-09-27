@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "우리 가치",
+    "slug": "dowajwo-location-share",
+    "version": "1.0.0",
+    "newArchEnabled": false,
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "icon": "./asset/iconIMG.png",
+
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./asset/mainIMG.png",
+          "backgroundColor": "#FFFFFF",
+          "resizeMode": "cover",
+          "imageWidth": 430
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "위치 공유를 켠 동안 앱이 백그라운드에서도 10분마다 위치를 갱신하기 위해 위치 권한이 필요합니다.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "채팅에서 사진을 선택하여 공유하기 위해 사진 접근 권한이 필요합니다.",
+          "cameraPermission": "채팅에서 사진을 촬영하여 공유하기 위해 카메라 권한이 필요합니다.",
+          "microphonePermission": false
+        }
+      ]
+    ],
+
+    "ios": {
+      "supportsTablet": true,
+      "icon": "./asset/iconIMG.png",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "가족·친구와 현재 위치를 공유하기 위해 위치 권한이 필요합니다.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "위치 공유를 켠 동안 앱이 백그라운드에서도 10분마다 위치를 갱신하기 위해 위치 권한이 필요합니다."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./asset/iconIMG.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION"
+      ],
+      "package": "com.anonymous.dowajwolocationshare"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cd03af8e-b6ad-4817-b752-414f11814302"
+      }
+    }
+  }
+}

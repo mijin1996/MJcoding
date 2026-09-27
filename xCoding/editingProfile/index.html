@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>진미 | XR/게임 개발자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F4FE;
+    --card:#FFFFFF;
+    --ink:#241B3A;
+    --ink-soft:#5C5477;
+    --violet:#7C5CFC;
+    --violet-deep:#5A3FE0;
+    --mint:#3FCE8E;
+    --coral:#FF8FA3;
+    --yellow:#FFC85C;
+    --line:#E7E1FB;
+    --radius:22px;
+    --shadow:0 14px 34px rgba(90,63,224,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Gowun Dodum','Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.jua{ font-family:'Jua','Gowun Dodum',sans-serif; font-weight:400; }
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  /* ---------- 로우폴리 삼각형 배경 (시그니처 요소) ---------- */
+  .poly-bg{
+    position:absolute; inset:0; width:100%; height:100%;
+    overflow:hidden; z-index:0; pointer-events:none;
+  }
+  .poly-bg svg{ position:absolute; }
+
+  /* ---------- 공통 섹션 ---------- */
+  section{ position:relative; padding:88px 24px; max-width:980px; margin:0 auto; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Jua',sans-serif; font-size:14px; color:var(--violet-deep);
+    background:rgba(124,92,252,0.1); padding:6px 16px; border-radius:999px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{ content:"▲"; font-size:9px; color:var(--coral); }
+  h2.section-title{ font-size:30px; margin:0 0 40px; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:60px 24px;
+  }
+  .hero-inner{ position:relative; z-index:2; max-width:640px; }
+  .avatar{
+    width:132px; height:132px; margin:0 auto 26px;
+    border-radius:38% 62% 60% 40% / 45% 40% 60% 55%;
+    background:linear-gradient(135deg,var(--violet),var(--coral));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Jua',sans-serif; font-size:44px; color:#fff;
+    box-shadow:var(--shadow);
+    position:relative;
+  }
+  .avatar::after{
+    content:"EDIT: 사진으로 교체";
+    position:absolute; bottom:-26px; left:50%; transform:translateX(-50%);
+    font-size:10px; color:var(--ink-soft); white-space:nowrap; font-family:monospace;
+    opacity:0.55;
+  }
+  .hero h1{ font-size:44px; margin:14px 0 6px; }
+  .hero .role{ font-size:16px; color:var(--ink-soft); margin-bottom:18px; }
+  .hero .tagline{
+    font-family:'Jua',sans-serif; font-size:20px; color:var(--violet-deep);
+    margin-bottom:34px;
+  }
+  .link-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 22px; border-radius:999px;
+    background:var(--card); box-shadow:var(--shadow);
+    text-decoration:none; font-size:14px; font-weight:600; color:var(--ink);
+    border:2px solid transparent;
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .pill:hover{ transform:translateY(-3px); border-color:var(--violet); }
+  .pill .dot{ width:9px; height:9px; border-radius:3px; transform:rotate(45deg); }
+
+  /* ---------- ABOUT / QUEST LOG ---------- */
+  .about-grid{ display:grid; grid-template-columns:1fr; gap:48px; }
+  @media(min-width:780px){ .about-grid{ grid-template-columns:1fr 1fr; } }
+  .about-text p{ margin:0 0 16px; color:var(--ink-soft); font-size:15px; }
+  .about-text strong{ color:var(--ink); }
+
+  .quest-log{ position:relative; padding-left:28px; }
+  .quest-log::before{
+    content:""; position:absolute; left:8px; top:6px; bottom:6px; width:2px;
+    background:repeating-linear-gradient(to bottom, var(--violet) 0 6px, transparent 6px 12px);
+  }
+  .quest{ position:relative; margin-bottom:28px; }
+  .quest:last-child{ margin-bottom:0; }
+  .quest::before{
+    content:""; position:absolute; left:-28px; top:3px; width:14px; height:14px;
+    background:var(--yellow); border-radius:4px; transform:rotate(45deg);
+    box-shadow:0 0 0 4px var(--bg);
+  }
+  .quest .period{ font-size:12px; font-family:monospace; color:var(--violet-deep); }
+  .quest .title{ font-family:'Jua',sans-serif; font-size:17px; margin:2px 0 4px; }
+  .quest .desc{ font-size:13.5px; color:var(--ink-soft); }
+
+  /* ---------- PROJECTS ---------- */
+  .project-grid{ display:grid; grid-template-columns:1fr; gap:22px; }
+  @media(min-width:700px){ .project-grid{ grid-template-columns:1fr 1fr; } }
+  .cart{
+    background:var(--card); border-radius:var(--radius); overflow:hidden;
+    box-shadow:var(--shadow); display:flex; flex-direction:column;
+    transition:transform .2s ease;
+  }
+  .cart:hover{ transform:translateY(-4px); }
+  .cart-head{
+    padding:22px 22px 18px; color:#fff; position:relative;
+  }
+  .cart-head .period{ font-size:11px; font-family:monospace; opacity:0.85; }
+  .cart-head h3{ font-size:19px; margin:4px 0 0; }
+  .cart-body{ padding:18px 22px 22px; flex:1; display:flex; flex-direction:column; }
+  .tags{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .tag{
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;
+    background:var(--line); color:var(--violet-deep);
+  }
+  .cart-body .desc{ font-size:13.5px; color:var(--ink-soft); flex:1; margin-bottom:14px; }
+  .cart-body .watch{
+    align-self:flex-start; font-size:13px; font-weight:700; color:var(--violet-deep);
+    text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .cart-body .watch::after{ content:"→"; transition:transform .15s; }
+  .cart-body .watch:hover::after{ transform:translateX(4px); }
+
+  /* ---------- CLOSING ---------- */
+  .closing{ text-align:center; padding-bottom:110px; }
+  .closing .card{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:56px 32px; max-width:560px; margin:0 auto;
+  }
+  .closing h2{ font-size:26px; margin:0 0 14px; }
+  .closing p{ color:var(--ink-soft); font-size:14.5px; margin:0 0 26px; }
+  .mail-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--violet); color:#fff; padding:14px 28px; border-radius:999px;
+    font-weight:700; text-decoration:none; font-size:14px;
+    box-shadow:0 10px 22px rgba(124,92,252,0.35);
+  }
+  footer{ text-align:center; padding:30px 20px 46px; font-size:12px; color:var(--ink-soft); }
+
+  @media (prefers-reduced-motion:no-preference){
+    .hero-inner{ animation:rise .7s ease both; }
+    @keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================================================
+     ✏️ 여기만 고치면 됩니다 (EDIT ZONE)
+     아래 DATA 객체의 값만 바꾸면 페이지 전체 내용이 바뀝니다.
+     HTML/CSS를 건드릴 필요가 없어요.
+====================================================== -->
+<script>
+const DATA = {
+  name: "진미",
+  initial: "진",                 // 프로필 원 안에 들어갈 글자 (사진 넣기 전 임시)
+  role: "XR / 게임 개발자",
+  tagline: "배움은 깊게, 나눔은 따뜻하게",
+
+  links: [
+    { label: "GitHub", url: "https://github.com/여기에_아이디", color: "#241B3A" },
+    { label: "Mail",   url: "mailto:itsjinmi@gmail.com",         color: "#7C5CFC" },
+    { label: "Notion", url: "https://여기에_노션_주소",           color: "#3FCE8E" }
+  ],
+
+  about: [
+    "한국폴리텍대학 광명 <strong>증강현실시스템과</strong>에서 게임 개발 및 편집 기술을 배우고 있습니다.",
+    "C, C#, JAVA, Unity, Adobe Photoshop/Premiere, 3ds Max, Figma를 활용해 팀 프로젝트와 개인 프로젝트를 완성하며 실무 역량을 다졌습니다.",
+    "배우는 데 그치지 않고 언어에 익숙해지기 위해 꾸준히 코드 리뷰를 해왔습니다.",
+    "개인 프로젝트로 2D·3D 게임 및 XR 콘텐츠를, 팀 프로젝트로는 미래내일 공모전에 참여해 등산 가이드 앱을 개발했습니다."
+  ],
+
+  timeline: [
+    { period: "2023.06 – 2024.07", title: "버넥트 팀프로젝트 (비공식 참여)", desc: "" },
+    { period: "2023.07 – 2024.07", title: "보육교사", desc: "" },
+    { period: "2026.03 – 2026.10", title: "개발자 [진미]", desc: "한국폴리텍대학 광명 증강현실시스템과" }
+  ],
+
+  projects: [
+    {
+      title: "Runit",
+      period: "2026.04 – 06",
+      tags: ["Unity", "C#", "3D"],
+      desc: "탄막슈팅을 피하는 3D 회피 게임. Collider 충돌 판정과 점수 시스템 구현.",
+      color: "#7C5CFC",
+      url: "https://youtu.be/hkTcS0_tAQc"
+    },
+    {
+      title: "Rainbow VR BeatSaber",
+      period: "2026.05 – 06",
+      tags: ["Unity", "C#", "VR"],
+      desc: "VR 리듬 게임. 비트 동기화 노트 생성과 판정, 네온 이펙트 연출.",
+      color: "#FF8FA3",
+      url: "https://youtu.be/VE1QeojSvHs"
+    },
+    {
+      title: "BunnyRunning",
+      period: "2026.06 – 07",
+      tags: ["Unity", "C#", "2D"],
+      desc: "횡스크롤 점프 2D 러닝 게임. 무한 스테이지와 오브젝트 풀링 구현.",
+      color: "#3FCE8E",
+      url: "https://youtu.be/PG0uFNFasiU"
+    },
+    {
+      title: "등산 가이드 (미래내일)",
+      period: "2026.05 – 07",
+      tags: ["VIRNECT MakeView", "AR", "팀프로젝트"],
+      desc: "초보 등산객의 안전한 산행을 돕는 오프라인 기반 AR 콘텐츠.",
+      color: "#FFC85C",
+      url: "https://youtu.be/wNcxJchSHtY"
+    }
+  ],
+
+  closingTitle: "감사합니다",
+  closingText: "저의 역량과 가능성을 긍정적으로 살펴봐 주셨기를 바라며, 함께할 기회를 얻을 수 있기를 기대합니다.",
+  email: "itsjinmi@gmail.com"
+};
+</script>
+<!-- ====================================================== -->
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="poly-bg" id="polyHero"></div>
+  <div class="hero-inner">
+
+
+<h1 id="heroName"></h1>
+    <div class="role" id="heroRole"></div>
+    <div class="tagline jua" id="heroTagline"></div>
+    <div class="link-row" id="linkRow"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="eyebrow">ABOUT ME</div>
+  <h2 class="section-title">저를 소개합니다</h2>
+  <div class="about-grid">
+    <div class="about-text" id="aboutText"></div>
+    <div class="quest-log" id="questLog"></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="eyebrow">PROJECTS</div>
+  <h2 class="section-title">만든 것들</h2>
+  <div class="project-grid" id="projectGrid"></div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing" id="contact">
+  <div class="card">
+    <h2 class="jua" id="closingTitle"></h2>
+    <p id="closingText"></p>
+    <a class="mail-btn" id="mailBtn" href="#">✉ 메일 보내기</a>
+  </div>
+</section>
+
+<footer id="footerText"></footer>
+
+<script>
+// ---------- 렌더링 로직 (이 아래는 수정하지 않아도 됩니다) ----------
+document.getElementById('avatarInitial').textContent = DATA.initial;
+document.getElementById('heroName').textContent = DATA.name;
+document.getElementById('heroRole').textContent = DATA.role;
+document.getElementById('heroTagline').textContent = "“" + DATA.tagline + "”";
+
+const linkRow = document.getElementById('linkRow');
+DATA.links.forEach(l=>{
+  const a = document.createElement('a');
+  a.className = 'pill'; a.href = l.url; a.target = '_blank'; a.rel='noopener';
+  a.innerHTML = `<span class="dot" style="background:${l.color}"></span>${l.label}`;
+  linkRow.appendChild(a);
+});
+
+const aboutText = document.getElementById('aboutText');
+DATA.about.forEach(p=>{
+  const el = document.createElement('p'); el.innerHTML = p; aboutText.appendChild(el);
+});
+
+const questLog = document.getElementById('questLog');
+DATA.timeline.forEach(t=>{
+  const div = document.createElement('div'); div.className='quest';
+  div.innerHTML = `<div class="period">${t.period}</div><div class="title">${t.title}</div>${t.desc?`<div class="desc">${t.desc}</div>`:''}`;
+  questLog.appendChild(div);
+});
+
+const grid = document.getElementById('projectGrid');
+DATA.projects.forEach(p=>{
+  const card = document.createElement('div'); card.className='cart';
+  card.innerHTML = `
+    <div class="cart-head" style="background:${p.color}">
+      <div class="period">${p.period}</div>
+      <h3>${p.title}</h3>
+    </div>
+    <div class="cart-body">
+      <div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="desc">${p.desc}</div>
+      <a class="watch" href="${p.url}" target="_blank" rel="noopener">영상 보기</a>
+    </div>`;
+  grid.appendChild(card);
+});
+
+document.getElementById('closingTitle').textContent = DATA.closingTitle;
+document.getElementById('closingText').textContent = DATA.closingText;
+document.getElementById('mailBtn').href = 'mailto:' + DATA.email;
+document.getElementById('footerText').textContent = `© ${new Date().getFullYear()} ${DATA.name}`;
+
+// ---------- 로우폴리 삼각형 배경 생성 ----------
+function makePolyBackground(container, count){
+  const ns = "http://www.w3.org/2000/svg";
+  const w = container.clientWidth || window.innerWidth;
+  const h = container.clientHeight || window.innerHeight;
+  const svg = document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('width','100%'); svg.setAttribute('height','100%');
+  svg.setAttribute('preserveAspectRatio','none');
+  const colors = ['#7C5CFC','#FF8FA3','#3FCE8E','#FFC85C'];
+  for(let i=0;i<count;i++){
+    const x = Math.random()*w, y = Math.random()*h;
+    const size = 40 + Math.random()*90;
+    const rot = Math.random()*60-30;
+    const p1 = [x, y];
+    const p2 = [x+size, y+ (Math.random()*40-20)];
+    const p3 = [x+ (Math.random()*40-20), y+size];
+    const poly = document.createElementNS(ns,'polygon');
+    poly.setAttribute('points', `${p1[0]},${p1[1]} ${p2[0]},${p2[1]} ${p3[0]},${p3[1]}`);
+    poly.setAttribute('fill', colors[i % colors.length]);
+    poly.setAttribute('opacity', (0.05 + Math.random()*0.08).toFixed(2));
+    poly.setAttribute('transform', `rotate(${rot} ${x} ${y})`);
+    svg.appendChild(poly);
+  }
+  container.appendChild(svg);
+}
+makePolyBackground(document.getElementById('polyHero'), 26);
+</script>
+
+</body>
+</html>
